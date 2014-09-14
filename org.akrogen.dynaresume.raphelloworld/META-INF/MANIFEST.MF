@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.rap.rwt;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rap.jface,
- org.eclipse.rap.ui;bundle-version="2.1.0"
+ org.eclipse.rap.ui;bundle-version="2.1.0",
+ org.eclipse.rap.ui.forms
 Import-Package: javax.servlet;version="2.6.0",
  javax.servlet.http;version="2.6.0"

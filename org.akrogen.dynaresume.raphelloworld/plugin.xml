@@ -26,6 +26,27 @@
             name="User Detail View"
             restorable="true">
       </view>
+      
+      <view
+            class="org.akrogen.dynaresume.raphelloworld.ChartViewPart"
+            id="org.akrogen.dynaresume.raphelloworld.chartviewpart"
+            name="Chart View"
+            restorable="true">
+      </view>
+      
+      <view
+            class="org.akrogen.dynaresume.raphelloworld.FormViewPart"
+            id="org.akrogen.dynaresume.raphelloworld.formviewpart"
+            name="Form View"
+            restorable="true">
+      </view>
+      
+      <view
+            class="org.akrogen.dynaresume.raphelloworld.SelectionViewPart"
+            id="org.akrogen.dynaresume.raphelloworld.selectionviewpart"
+            name="Selection View"
+            restorable="true">
+      </view>
    </extension>
  
 </plugin>
