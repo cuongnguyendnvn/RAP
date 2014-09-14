@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ 
+   <extension
+         point="org.eclipse.rap.ui.entrypoint">
+      <entrypoint
+            path="/hello"
+            class="org.akrogen.dynaresume.raphelloworld.Application"
+            id="org.akrogen.dynaresume.raphelloworld.Application">
+      </entrypoint>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="RAP Perspective"
+            class="org.akrogen.dynaresume.raphelloworld.Perspective"
+            id="org.akrogen.dynaresume.raphelloworld.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.akrogen.dynaresume.raphelloworld.UserDetailView"
+            id="org.akrogen.dynaresume.raphelloworld.userdetailview"
+            name="User Detail View"
+            restorable="true">
+      </view>
+   </extension>
+ 
+</plugin>
