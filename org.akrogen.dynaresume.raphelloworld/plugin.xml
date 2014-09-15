@@ -13,22 +13,18 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="RAP Perspective"
             class="org.akrogen.dynaresume.raphelloworld.Perspective"
-            id="org.akrogen.dynaresume.raphelloworld.perspective">
+            icon="images/search.gif"
+            id="org.akrogen.dynaresume.raphelloworld.perspective"
+            name="Demo">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <view
-            class="org.akrogen.dynaresume.raphelloworld.UserDetailView"
-            id="org.akrogen.dynaresume.raphelloworld.userdetailview"
-            name="User Detail View"
-            restorable="true">
-      </view>
-      
+
       <view
             class="org.akrogen.dynaresume.raphelloworld.ChartViewPart"
+            icon="images/contact.gif"
             id="org.akrogen.dynaresume.raphelloworld.chartviewpart"
             name="Chart View"
             restorable="true">
@@ -36,6 +32,7 @@
       
       <view
             class="org.akrogen.dynaresume.raphelloworld.FormViewPart"
+            icon="images/register.gif"
             id="org.akrogen.dynaresume.raphelloworld.formviewpart"
             name="Form View"
             restorable="true">
@@ -45,6 +42,14 @@
             class="org.akrogen.dynaresume.raphelloworld.SelectionViewPart"
             id="org.akrogen.dynaresume.raphelloworld.selectionviewpart"
             name="Selection View"
+            restorable="true"
+            icon="images/status.gif">
+      </view>
+      <view
+            class="org.akrogen.dynaresume.raphelloworld.TreeViewPart"
+            icon="images/login.gif"
+            id="org.akrogen.dynaresume.raphelloworld.treeviewpart"
+            name="Tree View"
             restorable="true">
       </view>
    </extension>

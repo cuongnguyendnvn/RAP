@@ -19,6 +19,10 @@ public class Perspective implements IPerspectiveFactory {
 	    bottom.addView(FormViewPart.ID);
 	    
 	    //
+	    IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 9.50f, "topLeft");
+	    bottomLeft.addView(TreeViewPart.ID);
+	    
+	    //
 	    IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.RIGHT, 0.70f, editorArea);
 	    topRight.addView(SelectionViewPart.ID);
 	    

@@ -22,7 +22,7 @@ public class ChartViewPart extends ViewPart {
 		initBars(parent.getDisplay());
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new FillLayout());
-		Canvas canvas = new Canvas(parent, SWT.NONE);
+		Canvas canvas = new Canvas(composite, SWT.NONE);
 		canvas.addPaintListener(new PaintListener() {
 			
 			@Override
