@@ -146,7 +146,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 			public void run() {
 				browserIndex++;
 				try{
-					window.getActivePage().showView("org.akrogen.dynaresume.raphelloworld.BrowserViewPart", String.valueOf(browserIndex), IWorkbenchPage.VIEW_ACTIVATE);
+					window.getActivePage().showView(BrowserViewPart.ID, String.valueOf(browserIndex), IWorkbenchPage.VIEW_ACTIVATE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

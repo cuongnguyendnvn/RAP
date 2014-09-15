@@ -31,12 +31,12 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 public class TreeViewPart extends ViewPart {
 
 	public static final String ID = "org.akrogen.dynaresume.raphelloworld.treeviewpart";
+	public static final String ID_II = "org.akrogen.dynaresume.raphelloworld.treeviewpartII";
 	private TreeViewer treeViewer;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		treeViewer.setContentProvider(new ViewContentProvider());
 
 		ILabelDecorator labelDecorator = PlatformUI.getWorkbench()
@@ -45,7 +45,7 @@ public class TreeViewPart extends ViewPart {
 				new ViewLabelProvider(), labelDecorator);
 		treeViewer.setLabelProvider(labelProvider);
 
-		treeViewer.setInput(File.listRoots());
+		treeViewer.setInput(this);
 
 		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
 
@@ -108,7 +108,7 @@ public class TreeViewPart extends ViewPart {
 		private void initTreeView() {
 			TreeObject treeObject_1 = new TreeObject(
 					"EclipseCon location",
-					"http://maps.google.com/maps?q=5001%20Great%20America%20Pkwy%20Santa%20Clara%20CA%2095054");
+					"http://google.com");
 			TreeObject treeObject_2 = new TreeObject("Eclipse Foundation",
 					"http://maps.google.com/maps?q=Ottawa");
 			TreeObject treeObject_3 = new TreeObject("Innoopract Inc",
@@ -119,7 +119,7 @@ public class TreeViewPart extends ViewPart {
 			treeParent_1.addChild(treeObject_2);
 			treeParent_1.addChild(treeObject_3);
 
-			TreeObject treeObject_4 = new TreeObject("Leaf 4");
+			BrokenTreeObject treeObject_4 = new BrokenTreeObject("Leaf 4");
 			TreeParent treeParent_2 = new TreeParent("Parent 2");
 
 			treeParent_2.addChild(treeObject_4);

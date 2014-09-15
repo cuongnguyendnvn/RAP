@@ -26,7 +26,14 @@
             class="org.akrogen.dynaresume.raphelloworld.ChartViewPart"
             icon="images/contact.gif"
             id="org.akrogen.dynaresume.raphelloworld.chartviewpart"
-            name="Chart View"
+            name="Chart"
+            restorable="true">
+      </view>
+      <view
+            class="org.akrogen.dynaresume.raphelloworld.TreeViewPart"
+            icon="images/info.gif"
+            id="org.akrogen.dynaresume.raphelloworld.treeviewpartII"
+            name="View II"
             restorable="true">
       </view>
       
@@ -34,7 +41,7 @@
             class="org.akrogen.dynaresume.raphelloworld.FormViewPart"
             icon="images/register.gif"
             id="org.akrogen.dynaresume.raphelloworld.formviewpart"
-            name="Form View"
+            name="Form"
             restorable="true">
       </view>
       
@@ -49,7 +56,15 @@
             class="org.akrogen.dynaresume.raphelloworld.TreeViewPart"
             icon="images/login.gif"
             id="org.akrogen.dynaresume.raphelloworld.treeviewpart"
-            name="Tree View"
+            name="Tree"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="org.akrogen.dynaresume.raphelloworld.BrowserViewPart"
+            icon="images/internal_browser.gif"
+            id="org.akrogen.dynaresume.raphelloworld.browserviewpart"
+            name="Browser"
             restorable="true">
       </view>
    </extension>
