@@ -23,6 +23,7 @@
          point="org.eclipse.ui.views">
 
       <view
+            category="org.akrogen.dynaresume.raphelloworld.category1"
             class="org.akrogen.dynaresume.raphelloworld.ChartViewPart"
             icon="images/contact.gif"
             id="org.akrogen.dynaresume.raphelloworld.chartviewpart"
@@ -30,6 +31,7 @@
             restorable="true">
       </view>
       <view
+            category="org.akrogen.dynaresume.raphelloworld.category1"
             class="org.akrogen.dynaresume.raphelloworld.TreeViewPart"
             icon="images/info.gif"
             id="org.akrogen.dynaresume.raphelloworld.treeviewpartII"
@@ -38,6 +40,7 @@
       </view>
       
       <view
+            category="org.akrogen.dynaresume.raphelloworld.category2"
             class="org.akrogen.dynaresume.raphelloworld.FormViewPart"
             icon="images/register.gif"
             id="org.akrogen.dynaresume.raphelloworld.formviewpart"
@@ -46,13 +49,15 @@
       </view>
       
       <view
+            category="org.akrogen.dynaresume.raphelloworld.category2"
             class="org.akrogen.dynaresume.raphelloworld.SelectionViewPart"
+            icon="images/status.gif"
             id="org.akrogen.dynaresume.raphelloworld.selectionviewpart"
             name="Selection View"
-            restorable="true"
-            icon="images/status.gif">
+            restorable="true">
       </view>
       <view
+            category="org.akrogen.dynaresume.raphelloworld.category1"
             class="org.akrogen.dynaresume.raphelloworld.TreeViewPart"
             icon="images/login.gif"
             id="org.akrogen.dynaresume.raphelloworld.treeviewpart"
@@ -61,12 +66,115 @@
       </view>
       <view
             allowMultiple="true"
+            category="org.akrogen.dynaresume.raphelloworld.category2"
             class="org.akrogen.dynaresume.raphelloworld.BrowserViewPart"
             icon="images/internal_browser.gif"
             id="org.akrogen.dynaresume.raphelloworld.browserviewpart"
             name="Browser"
             restorable="true">
       </view>
+      <view
+            category="org.akrogen.dynaresume.raphelloworld.category2"
+            class="org.akrogen.dynaresume.raphelloworld.TableViewPart"
+            icon="images/search.gif"
+            id="org.akrogen.dynaresume.raphelloworld.tableviewpart"
+            name="Table"
+            restorable="true">
+      </view>
+      <category
+            id="org.akrogen.dynaresume.raphelloworld.category1"
+            name="Category 1">
+      </category>
+      <category
+            id="org.akrogen.dynaresume.raphelloworld.category2"
+            name="Category 2">
+      </category>
    </extension>
  
+   <extension
+        point="org.eclipse.ui.importWizards">
+      <category
+            name="Demo Import Category"
+            id="org.akrogen.dynaresume.raphelloworld.wizardcategory">
+      </category>
+      <category
+            name="Demo Import Category I"
+            id="org.akrogen.dynaresume.raphelloworld.wizardcategoryI">
+      </category>
+      <wizard
+            name="Demo Import"
+            icon="images/sample.gif"
+            id="org.akrogen.dynaresume.raphelloworld.wizard.importpage"
+            category="org.akrogen.dynaresume.raphelloworld.wizardcategory"
+            class="org.akrogen.dynaresume.raphelloworld.wizard.ImportPage">
+         <description>
+            This is an example for a import wizard.
+         </description>
+      </wizard>
+      <wizard
+            name="Demo Import"
+            icon="images/sample.gif"
+            id="org.akrogen.dynaresume.raphelloworld.wizard.importpageI"
+            category="org.akrogen.dynaresume.raphelloworld.wizardcategoryI"
+            class="org.akrogen.dynaresume.raphelloworld.wizard.ImportPage">
+         <description>
+            This is an example for a import wizard.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <category
+            id="org.akrogen.dynaresume.raphelloworld.wizardcategory"
+            name="Demo Export Category">
+      </category>
+      <category
+            id="org.akrogen.dynaresume.raphelloworld.wizardcategoryI"
+            name="Demo Export Category I">
+      </category>
+      <wizard
+            category="org.akrogen.dynaresume.raphelloworld.wizardcategory"
+            class="org.akrogen.dynaresume.raphelloworld.wizard.ExportPage"
+            icon="images/sample.gif"
+            id="org.akrogen.dynaresume.raphelloworld.wizard.exporpage"
+            name="Demo Export">
+         <description>
+            This is an example for a export wizard.
+         </description>
+      </wizard>
+      <wizard
+            category="org.akrogen.dynaresume.raphelloworld.wizardcategoryI"
+            class="org.akrogen.dynaresume.raphelloworld.wizard.ExportPage"
+            icon="images/sample.gif"
+            id="org.akrogen.dynaresume.raphelloworld.wizard.exportpageI"
+            name="Demo Export">
+         <description>
+            This is an example for a export wizard.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.akrogen.dynaresume.raphelloworld.actionSet"
+            label="Sample Action Set"
+            visible="false">
+         <menu
+               id="sampleMenu"
+               label="Sample &amp;amp;Menu">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               class="org.akrogen.dynaresume.raphelloworld.actions.JobAction"
+               icon="images/pview.gif"
+               id="org.akrogen.dynaresume.raphelloworld.actions.JobAction"
+               label="&amp;amp;Start Job"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               tooltip="Start Job">
+         </action>
+      </actionSet>
+   </extension>
 </plugin>

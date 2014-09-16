@@ -1,5 +1,6 @@
 package org.akrogen.dynaresume.raphelloworld;
 
+import org.akrogen.dynaresume.raphelloworld.model.TableModel;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -50,7 +51,7 @@ public class SelectionViewPart extends ViewPart {
 				if (fistElement == null) {
 					entry += "null";
 				} else {
-					if (fistElement instanceof String[]) {
+					if (fistElement instanceof TableModel) {
 						entry += "Table count: " + structuredSelection.size();
 					} else {
 						entry += fistElement.toString();

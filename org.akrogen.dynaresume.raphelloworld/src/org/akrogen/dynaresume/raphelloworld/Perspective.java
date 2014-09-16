@@ -17,6 +17,7 @@ public class Perspective implements IPerspectiveFactory {
 	    
 	    //
 	    IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.60f, editorArea);
+	    bottom.addView(TableViewPart.ID);
 	    bottom.addView(FormViewPart.ID);
 	    
 	    //
