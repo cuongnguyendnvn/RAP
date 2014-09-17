@@ -1,8 +1,8 @@
 package org.akrogen.dynaresume.raphelloworld;
 
 import java.net.URL;
-import java.util.Dictionary;
 
+import org.akrogen.dynaresume.raphelloworld.editor.FooEditorInput;
 import org.akrogen.dynaresume.raphelloworld.wizard.SurveyWizard;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
@@ -20,9 +20,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
@@ -159,9 +161,21 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(browserAction);
 		
 		// New editor action
+		newEditorAction = new Action() {
+			@Override
+			public void run() {
+				try {
+					window.getActivePage().openEditor(new FooEditorInput(ApplicationActionBarAdvisor.this), "org.akrogen.dynaresume.raphelloworld.editor.fooeditor", true);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+			}
+		};
 		
-		
-		
+		newEditorAction.setText("Open New Editor");
+		newEditorAction.setId("org.carter.peyton.training.rap.editor");
+		newEditorAction.setImageDescriptor(window.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD));
+		register(newEditorAction);
 		
 		// Save action
 		saveAction = ActionFactory.SAVE.create(window);
@@ -207,6 +221,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         // Editor cool bar
         IToolBarManager editorToolbar = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
         coolBar.add(new ToolBarContributionItem(editorToolbar, "editor"));
+        editorToolbar.add(newEditorAction);
         editorToolbar.add(saveAction);
         editorToolbar.add(saveAllAction);
     }

@@ -15,8 +15,14 @@
       <perspective
             class="org.akrogen.dynaresume.raphelloworld.Perspective"
             icon="images/search.gif"
-            id="org.akrogen.dynaresume.raphelloworld.perspective"
+            id="org.akrogen.dynaresume.raphelloworld.demoperspective"
             name="Demo">
+      </perspective>
+      <perspective
+            class="org.akrogen.dynaresume.raphelloworld.PlaningPerspective"
+            icon="images/contact.gif"
+            id="org.akrogen.dynaresume.raphelloworld.planningperspective"
+            name="Planning">
       </perspective>
    </extension>
    <extension
@@ -161,20 +167,70 @@
             visible="false">
          <menu
                id="sampleMenu"
-               label="Sample &amp;amp;Menu">
+               label="Sample Menu">
             <separator
                   name="sampleGroup">
             </separator>
          </menu>
          <action
+               class="org.akrogen.dynaresume.raphelloworld.actions.SampleAction"
+               icon="images/internal_browser.gif"
+               id="org.akrogen.dynaresume.raphelloworld.actions.SampleAction"
+               label="Sample Action"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               tooltip="Hello, Eclipse world">
+         </action>
+         <action
+               class="org.akrogen.dynaresume.raphelloworld.actions.JobActionWithDialog"
+               icon="images/progress_ok.gif"
+               id="org.akrogen.dynaresume.raphelloworld.actions.jobactionwithdialog"
+               label="Start Job with Dialog"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               tooltip="Start Job with Dialog">
+         </action>
+         <action
                class="org.akrogen.dynaresume.raphelloworld.actions.JobAction"
                icon="images/pview.gif"
-               id="org.akrogen.dynaresume.raphelloworld.actions.JobAction"
-               label="&amp;amp;Start Job"
+               id="org.akrogen.dynaresume.raphelloworld.actions.jobaction"
+               label="Start Job"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                tooltip="Start Job">
          </action>
       </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.akrogen.dynaresume.raphelloworld.planningperspective">
+         <actionSet
+               id="org.akrogen.dynaresume.raphelloworld.actionSet">
+         </actionSet>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.akrogen.dynaresume.raphelloworld.editor.FooEditor"
+            contributorClass="org.akrogen.dynaresume.raphelloworld.editor.FooEditorContributor"
+            extensions="*"
+            icon="images/status.gif"
+            id="org.akrogen.dynaresume.raphelloworld.editor.fooeditor"
+            name="Foo Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            icon="images/error-decorator.png"
+            id="org.akrogen.dynaresume.raphelloworld.decorator"
+            label="Demo Decorator"
+            lightweight="true"
+            location="TOP_RIGHT"
+            objectClass="org.akrogen.dynaresume.raphelloworld.TreeViewPart$BrokenTreeObject"
+            state="true">
+      </decorator>
    </extension>
 </plugin>

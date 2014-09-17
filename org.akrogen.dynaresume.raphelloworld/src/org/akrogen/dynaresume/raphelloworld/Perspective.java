@@ -6,6 +6,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 public class Perspective implements IPerspectiveFactory {
 	
+	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 	    layout.setEditorAreaVisible(false);
@@ -32,5 +33,8 @@ public class Perspective implements IPerspectiveFactory {
 	    // add shortcuts to show view menu
 	    layout.addShowViewShortcut(ChartViewPart.ID);
 	    layout.addShowViewShortcut(TreeViewPart.ID_II);
+	    
+	    // add shortcut for other perspective
+	    layout.addPerspectiveShortcut("org.akrogen.dynaresume.raphelloworld.planningperspective");
     }
 }

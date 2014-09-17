@@ -1,137 +1,164 @@
 package org.akrogen.dynaresume.raphelloworld.model;
 
-public class TableModel {
-	
-	private String column_0;
-	private String column_1;
-	private String column_2;
-	private String column_3;
-	private String column_4;
-	private String column_5;
-	private String column_6;
-	private String column_7;
-	private String column_8;
-	private String column_9;
-	
-	public TableModel() {}
+import java.io.Serializable;
+import javax.persistence.*;
 
-	public TableModel(String column_0, String column_1, String column_2, String column_3,
-			String column_4, String column_5, String column_6, String column_7,
-			String column_8, String column_9) {
-		super();
-		this.column_0 = column_0;
-		this.column_1 = column_1;
-		this.column_2 = column_2;
-		this.column_3 = column_3;
-		this.column_4 = column_4;
-		this.column_5 = column_5;
-		this.column_6 = column_6;
-		this.column_7 = column_7;
-		this.column_8 = column_8;
-		this.column_9 = column_9;
+
+/**
+ * The persistent class for the TableModel database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="TableModel.findAll", query="SELECT t FROM TableModel t")
+@Table(name="TableModel")
+public class TableModel implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	private int idDemoTable;
+
+	@Column(name="column_0")
+	private String column0;
+
+	@Column(name="column_1")
+	private String column1;
+
+	@Column(name="column_2")
+	private String column2;
+
+	@Column(name="column_3")
+	private String column3;
+
+	@Column(name="column_4")
+	private String column4;
+
+	@Column(name="column_5")
+	private String column5;
+
+	@Column(name="column_6")
+	private String column6;
+
+	@Column(name="column_7")
+	private String column7;
+
+	@Column(name="column_8")
+	private String column8;
+
+	@Column(name="column_9")
+	private String column9;
+
+	public TableModel() {
 	}
 
-	public String getColumn_0() {
-		return column_0;
+	public int getIdDemoTable() {
+		return this.idDemoTable;
 	}
 
-	public void setColumn_0(String column_0) {
-		this.column_0 = column_0;
-	}
-	
-	public String getColumn_1() {
-		return column_1;
+	public void setIdDemoTable(int idDemoTable) {
+		this.idDemoTable = idDemoTable;
 	}
 
-	public void setColumn_1(String column_1) {
-		this.column_1 = column_1;
+	public String getColumn0() {
+		return this.column0;
 	}
 
-	public String getColumn_2() {
-		return column_2;
+	public void setColumn0(String column0) {
+		this.column0 = column0;
 	}
 
-	public void setColumn_2(String column_2) {
-		this.column_2 = column_2;
+	public String getColumn1() {
+		return this.column1;
 	}
 
-	public String getColumn_3() {
-		return column_3;
+	public void setColumn1(String column1) {
+		this.column1 = column1;
 	}
 
-	public void setColumn_3(String column_3) {
-		this.column_3 = column_3;
+	public String getColumn2() {
+		return this.column2;
 	}
 
-	public String getColumn_4() {
-		return column_4;
+	public void setColumn2(String column2) {
+		this.column2 = column2;
 	}
 
-	public void setColumn_4(String column_4) {
-		this.column_4 = column_4;
+	public String getColumn3() {
+		return this.column3;
 	}
 
-	public String getColumn_5() {
-		return column_5;
+	public void setColumn3(String column3) {
+		this.column3 = column3;
 	}
 
-	public void setColumn_5(String column_5) {
-		this.column_5 = column_5;
+	public String getColumn4() {
+		return this.column4;
 	}
 
-	public String getColumn_6() {
-		return column_6;
+	public void setColumn4(String column4) {
+		this.column4 = column4;
 	}
 
-	public void setColumn_6(String column_6) {
-		this.column_6 = column_6;
+	public String getColumn5() {
+		return this.column5;
 	}
 
-	public String getColumn_7() {
-		return column_7;
+	public void setColumn5(String column5) {
+		this.column5 = column5;
 	}
 
-	public void setColumn_7(String column_7) {
-		this.column_7 = column_7;
+	public String getColumn6() {
+		return this.column6;
 	}
 
-	public String getColumn_8() {
-		return column_8;
+	public void setColumn6(String column6) {
+		this.column6 = column6;
 	}
 
-	public void setColumn_8(String column_8) {
-		this.column_8 = column_8;
+	public String getColumn7() {
+		return this.column7;
 	}
 
-	public String getColumn_9() {
-		return column_9;
+	public void setColumn7(String column7) {
+		this.column7 = column7;
 	}
 
-	public void setColumn_9(String column_9) {
-		this.column_9 = column_9;
+	public String getColumn8() {
+		return this.column8;
+	}
+
+	public void setColumn8(String column8) {
+		this.column8 = column8;
+	}
+
+	public String getColumn9() {
+		return this.column9;
+	}
+
+	public void setColumn9(String column9) {
+		this.column9 = column9;
 	}
 	
 	public String getColumnByIndex(int colIndex) {
 		if (colIndex == 0) {
-			return column_0;
+			return column0;
 		} else if (colIndex == 1) {
-			return column_1;
+			return column1;
 		} else if (colIndex == 2) {
-			return column_2;
+			return column2;
 		} else if (colIndex == 3) {
-			return column_3;
+			return column3;
 		} else if (colIndex == 4) {
-			return column_4;
+			return column4;
 		} else if (colIndex == 5) {
-			return column_5;
+			return column5;
 		} else if (colIndex == 6) {
-			return column_6;
+			return column6;
 		} else if (colIndex == 7) {
-			return column_7;
+			return column7;
 		} else if (colIndex == 8) {
-			return column_8;
+			return column8;
 		} else if (colIndex == 9) {
-			return column_9;
+			return column9;
 		} else {
 			return null;
 		}
