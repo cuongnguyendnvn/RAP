@@ -1,7 +1,9 @@
 package org.carter.peyton.training.rap.models;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -27,15 +29,19 @@ public class Version implements Serializable {
 	private Date deployTime;
 
 	private int idProject;
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="SaveTime")
-	private String saveTime;
+	private Date saveTime;
 
 	@Column(name="TargetVersion")
 	private String targetVersion;
 
 	@Column(name="VersionName")
 	private String versionName;
+	
+	@Column(name="isLastDeployedVersion")
+	private int isLastDeployedVersion;
 
 	//bi-directional many-to-one association to Device
 	@OneToMany(mappedBy="version")
@@ -76,11 +82,11 @@ public class Version implements Serializable {
 		this.idProject = idProject;
 	}
 
-	public String getSaveTime() {
+	public Date getSaveTime() {
 		return this.saveTime;
 	}
 
-	public void setSaveTime(String saveTime) {
+	public void setSaveTime(Date saveTime) {
 		this.saveTime = saveTime;
 	}
 
@@ -98,6 +104,14 @@ public class Version implements Serializable {
 
 	public void setVersionName(String versionName) {
 		this.versionName = versionName;
+	}
+
+	public int getIsLastDeployedVersion() {
+		return isLastDeployedVersion;
+	}
+
+	public void setIsLastDeployedVersion(int isLastDeployedVersion) {
+		this.isLastDeployedVersion = isLastDeployedVersion;
 	}
 
 	public List<Device> getDevices() {
@@ -122,4 +136,8 @@ public class Version implements Serializable {
 		return device;
 	}
 
+	@Override
+	public String toString() {
+		return getVersionName();
+	}
 }

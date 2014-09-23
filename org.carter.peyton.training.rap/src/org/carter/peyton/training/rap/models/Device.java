@@ -1,6 +1,7 @@
 package org.carter.peyton.training.rap.models;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -96,4 +97,19 @@ public class Device implements Serializable {
 		this.version = version;
 	}
 
+	public String getColumnByIndex(int colIndex) {
+		if (colIndex == 0) {
+			return deviceName;
+		} else if (colIndex == 1) {
+			return appModule;
+		} else if (colIndex == 2) {
+			return deviceType;
+		} else if (colIndex == 3) {
+			return physicalLocation;
+		} else if (colIndex == 4) {
+			return manufacturer;
+		} else {
+			return null;
+		}
+	}
 }

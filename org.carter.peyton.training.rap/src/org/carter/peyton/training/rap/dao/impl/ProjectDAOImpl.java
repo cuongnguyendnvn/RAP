@@ -15,8 +15,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 	private EntityManagerFactory emf;
 	
 	@Override
-	public Project getProjectByName(String projectName) {
-		return null;
+	public Project getProjectById(int projectId) {
+		emf = Persistence.createEntityManagerFactory("demo");
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("Select p from Project p where p.idProject = :projectId");
+		query.setParameter("projectId", projectId);
+		Project project = (Project)query.getSingleResult();
+		em.close();
+		
+		return project;
 	}
 
 	@Override
