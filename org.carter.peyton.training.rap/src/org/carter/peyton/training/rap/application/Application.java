@@ -6,11 +6,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 
 public class Application implements EntryPoint {
-	
-	@Override
-	public int createUI() {
-		Display display = PlatformUI.createDisplay();
-		WorkbenchAdvisor workbenchAdvisor = new ApplicationWorkbenchAdvisor();
-		return PlatformUI.createAndRunWorkbench(display, workbenchAdvisor);
-	}
+    
+    @Override
+    public int createUI() {
+        Display display = PlatformUI.createDisplay();
+        WorkbenchAdvisor workbenchAdvisor = new ApplicationWorkbenchAdvisor();
+        return PlatformUI.createAndRunWorkbench(display, workbenchAdvisor);
+    }
 }

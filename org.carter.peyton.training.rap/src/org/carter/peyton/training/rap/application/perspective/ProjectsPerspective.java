@@ -9,22 +9,23 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 public class ProjectsPerspective implements IPerspectiveFactory {
 
-	@Override
-	public void createInitialLayout(IPageLayout layout) {
-		String editorLayout = layout.getEditorArea();
-		layout.setEditorAreaVisible(true);
-		
-		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, 0.50f, editorLayout);
-		topLeft.addView(ProjectsTreeViewPart.ID);
-		topLeft.addView(ProjectsTreeViewPart.ID_DRIVER);
-		topLeft.addView(ProjectsTreeViewPart.ID_AREA);
-		
-		IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.TOP, 0.60f, editorLayout);
-		topRight.addView(DevicesSelectionViewPart.ID);
-		topRight.addView(DevicesSelectionViewPart.ID_SERVICES);
-		topRight.addView(DevicesSelectionViewPart.ID_SCENES);
-		topRight.addView(DevicesSelectionViewPart.ID_RULES);
-		
-		layout.addStandaloneView(VersionPropertyFormViewPart.ID, false, IPageLayout.BOTTOM, 0.50f, "topLeft");
-	}
+    @Override
+    public void createInitialLayout(IPageLayout layout) {
+        String editorLayout = layout.getEditorArea();
+        layout.setEditorAreaVisible(true);
+        layout.setFixed(true);
+
+        IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, 0.50f, editorLayout);
+        topLeft.addView(ProjectsTreeViewPart.ID);
+        topLeft.addView(ProjectsTreeViewPart.ID_DRIVER);
+        topLeft.addView(ProjectsTreeViewPart.ID_AREA);
+
+        IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.TOP, 0.60f, editorLayout);
+        topRight.addView(DevicesSelectionViewPart.ID);
+        topRight.addView(DevicesSelectionViewPart.ID_SERVICES);
+        topRight.addView(DevicesSelectionViewPart.ID_SCENES);
+        topRight.addView(DevicesSelectionViewPart.ID_RULES);
+
+        layout.addStandaloneView(VersionPropertyFormViewPart.ID, false, IPageLayout.BOTTOM, 0.65f, "topLeft");
+    }
 }

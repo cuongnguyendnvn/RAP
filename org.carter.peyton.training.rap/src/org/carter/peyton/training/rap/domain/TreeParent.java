@@ -4,57 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeParent extends Object {
-	
-	private final List<Object> children;
-	private String rootName;
-	private boolean isUserObject = false;
-	private boolean isProjectObject = false;
 
-	public TreeParent() {
-		super();
-		children = new ArrayList<Object>();
-	}
+    private final List<Object> children;
+    private String rootName;
+    private boolean isUserObject = false;
+    private boolean isProjectObject = false;
 
-	public void addChild(Object child) {
-		children.add(child); 
-	}
+    public TreeParent() {
+        super();
+        children = new ArrayList<Object>();
+    }
 
-	public Object[] getChildren() {
-		Object[] result = new Object[children.size()];
-		children.toArray(result);
-		return result;
-	}
+    public void addChild(Object child) {
+        children.add(child); 
+    }
 
-	public boolean hasChildren() {
-		return children.size() > 0;
-	}
+    public Object[] getChildren() {
+        Object[] result = new Object[children.size()];
+        children.toArray(result);
+        return result;
+    }
 
-	public String getRootName() {
-		return rootName;
-	}
+    public boolean hasChildren() {
+        return children.size() > 0;
+    }
 
-	public void setRootName(String rootName) {
-		this.rootName = rootName;
-	}
-	
-	public boolean isUserObject() {
-		return isUserObject;
-	}
+    public String getRootName() {
+        return rootName;
+    }
 
-	public void setUserObject(boolean isUserObject) {
-		this.isUserObject = isUserObject;
-	}
+    public void setRootName(String rootName) {
+        this.rootName = rootName;
+    }
+    
+    public boolean isUserObject() {
+        return isUserObject;
+    }
 
-	public boolean isProjectObject() {
-		return isProjectObject;
-	}
+    public void setUserObject(boolean isUserObject) {
+        this.isUserObject = isUserObject;
+    }
 
-	public void setProjectObject(boolean isProjectObject) {
-		this.isProjectObject = isProjectObject;
-	}
+    public boolean isProjectObject() {
+        return isProjectObject;
+    }
 
-	@Override
-	public String toString() {
-		return getRootName();
-	}
+    public void setProjectObject(boolean isProjectObject) {
+        this.isProjectObject = isProjectObject;
+    }
+
+    @Override
+    public String toString() {
+        return getRootName();
+    }
 }

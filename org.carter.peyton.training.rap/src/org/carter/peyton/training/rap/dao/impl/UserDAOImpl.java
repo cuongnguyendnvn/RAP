@@ -12,18 +12,18 @@ import org.carter.peyton.training.rap.models.User;
 
 public class UserDAOImpl implements UserDAO {
 
-	private EntityManagerFactory emf;
-	
-	@Override
-	public List<User> getListUser() {
-		emf = Persistence.createEntityManagerFactory("demo");
-		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select u from User u");
-		@SuppressWarnings("unchecked")
-		List<User> listUser = query.getResultList();
-		em.close();
-		
-		return listUser;
-	}
+    private EntityManagerFactory emf;
+
+    @Override
+    public List<User> getListUser() {
+        emf = Persistence.createEntityManagerFactory("demo");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("Select u from User u");
+        @SuppressWarnings("unchecked")
+        List<User> listUser = query.getResultList();
+        em.close();
+
+        return listUser;
+    }
 
 }

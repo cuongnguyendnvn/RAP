@@ -13,56 +13,56 @@ import javax.persistence.*;
 @NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
 @Table(name="Project")
 public class Project implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	private int idProject;
+    @Id
+    private int idProject;
 
-	private int idUser;
+    private int idUser;
 
-	@Column(name="ProjectDescription")
-	private String projectDescription;
+    @Column(name="ProjectDescription")
+    private String projectDescription;
 
-	@Column(name="ProjectName")
-	private String projectName;
+    @Column(name="ProjectName")
+    private String projectName;
 
-	public Project() {
-	}
+    public Project() {
+    }
 
-	public int getIdProject() {
-		return this.idProject;
-	}
+    public int getIdProject() {
+        return this.idProject;
+    }
 
-	public void setIdProject(int idProject) {
-		this.idProject = idProject;
-	}
+    public void setIdProject(int idProject) {
+        this.idProject = idProject;
+    }
 
-	public int getIdUser() {
-		return this.idUser;
-	}
+    public int getIdUser() {
+        return this.idUser;
+    }
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
-	}
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
-	public String getProjectDescription() {
-		return this.projectDescription;
-	}
+    public String getProjectDescription() {
+        return this.projectDescription;
+    }
 
-	public void setProjectDescription(String projectDescription) {
-		this.projectDescription = projectDescription;
-	}
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
 
-	public String getProjectName() {
-		return this.projectName;
-	}
+    public String getProjectName() {
+        return this.projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-	
-	@Override
-	public String toString() {
-		return getProjectName();
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+    
+    @Override
+    public String toString() {
+        return getProjectName();
+    }
 }

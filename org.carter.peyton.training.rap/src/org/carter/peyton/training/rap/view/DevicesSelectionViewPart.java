@@ -1,11 +1,20 @@
 package org.carter.peyton.training.rap.view;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.carter.peyton.training.rap.dao.impl.DeviceDAOImpl;
 import org.carter.peyton.training.rap.models.Device;
 import org.carter.peyton.training.rap.models.Version;
-import org.eclipse.ui.part.ViewPart;
+import org.carter.peyton.training.rap.view.action.AddProjectViewToolbar;
+import org.carter.peyton.training.rap.view.action.TableViewerComparator;
+import org.carter.peyton.training.rap.view.action.TableViewerFilter;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -13,163 +22,320 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.internal.util.BundleUtility;
+import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 
 public class DevicesSelectionViewPart extends ViewPart {
 
-	public static final String ID = "org.carter.peyton.training.rap.DevicesSelectionView";
-	public static final String ID_SERVICES = "org.carter.peyton.training.rap.ServicesSelectionView";
-	public static final String ID_SCENES = "org.carter.peyton.training.rap.ScenesSelectionView";
-	public static final String ID_RULES = "org.carter.peyton.training.rap.RulesSelectionView";
-	
-	private TableViewer tableViewer;
-	private DeviceDAOImpl deviceDAOImpl;
-	
-	@Override
-	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(2, false));
-		createSelectionListener(parent);
-	}
-	
-	private void createViewer(Composite parent) {
-		tableViewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+    public static final String ID = "org.carter.peyton.training.rap.DevicesSelectionView";
+    public static final String ID_SERVICES = "org.carter.peyton.training.rap.ServicesSelectionView";
+    public static final String ID_SCENES = "org.carter.peyton.training.rap.ScenesSelectionView";
+    public static final String ID_RULES = "org.carter.peyton.training.rap.RulesSelectionView";
 
-		Table table = tableViewer.getTable();
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
+    public static final String IP_CAMERAS = "IP Cameras";
+    public static final String DVR_NVR = "DVR/NVR";
+    public static final String FIREPLACE_CONTROLLER = "Fireplace Controller";
 
-		tableViewer.setColumnProperties(initColumnProperties(table));
-		tableViewer.setLabelProvider( new ViewLabelProvider() );
-		tableViewer.setContentProvider(new ViewContentProvider());
-		tableViewer.setInput(this);
+    private TableViewer tableViewer;
+    private TableViewerComparator tableViewerComparator;
+    private TableViewerFilter tableViewerFilter;
+    private DeviceDAOImpl deviceDAOImpl = new DeviceDAOImpl();;
 
-		GridData gridData = new GridData();
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.grabExcessVerticalSpace = true;
-		tableViewer.getControl().setLayoutData(gridData);
-	}
-	
-	private String[] initColumnProperties(Table table) {
+    @Override
+    public void createPartControl(Composite parent) {
+        parent.setLayout(new GridLayout(2, false));
 
-		String[] result = new String[5];
+        //createFilterViewer(parent);
+        createTableViewer(parent);
 
-		for (int i = 0; i < 5; i++) {
-			result[i] = "Column" + i;
-			
-			if (i == 0) {
-				createTableColumn(table, "Name", 300);
-			} else if (i == 1){
-				createTableColumn(table, "App Module", 170);
-			} else if (i == 2){
-				createTableColumn(table, "Device Type", 170);
-			} else if (i == 3){
-				createTableColumn(table, "Physical Location", 200);
-			} else if (i == 4){
-				createTableColumn(table, "Manufacturer", 160);
-			}
-		}
+        // Set the sorter for the table
+        tableViewerComparator = new TableViewerComparator();
+        tableViewer.setComparator(tableViewerComparator);
 
-		return result;
-	}
-	
-	private void createTableColumn(Table table, String title, int bound) {
-		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
+        // Set the filter for the table
+        tableViewerFilter = new TableViewerFilter();
+        tableViewer.addFilter(tableViewerFilter);
 
-		tableColumn.setText(title);
-		tableColumn.setWidth(bound);
-		tableColumn.setResizable(true);
-		tableColumn.setMoveable(true);
-	}
-	
-	private class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
+        createSelectionListener(parent);
+        tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 208403679101827118L;
+            @Override
+            public void doubleClick(DoubleClickEvent event) {
+                String msg = "You double clicked on: "
+                        + event.getSelection().toString();
+                Shell shell = tableViewer.getTable().getShell();
+                MessageDialog.openInformation(shell, "Device", msg);
+            }
+        });
 
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
+        parent.setVisible(false);
+    }
 
-		public String getColumnText(Object element, int columnIndex) {
-			Device row = (Device) element;
-			String result = row.getColumnByIndex(columnIndex);
-			return result;
-		}
-	}
-	
-	private class ViewContentProvider implements IStructuredContentProvider {
+    private void createFilterViewer(Composite parent) {
+        Label searchLabel = new Label(parent, SWT.NONE);
+        searchLabel.setText("Filter: ");
+        final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+        searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+                | GridData.HORIZONTAL_ALIGN_FILL));
+        // New to support the search
+        searchText.addKeyListener(new KeyAdapter() {
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -1817398953526760067L;
+            private static final long serialVersionUID = -6726454020327955753L;
 
-		@Override
-		public Object[] getElements(Object inputElement) {
-			
-			deviceDAOImpl = new DeviceDAOImpl();
-			List<Device> listTable = deviceDAOImpl.getDeviceList();
-			Object[] result = new Object[listTable.size()];
-			listTable.toArray(result);
+            public void keyReleased(KeyEvent ke) {
+                tableViewerFilter.setSearchText(searchText.getText());
+                tableViewer.refresh();
+            }
+        });
+    }
 
-			return result;
-		}
+    private void createTableViewer(Composite parent) {
+        tableViewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
+                | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 
-		@Override
-		public void dispose() {
-		}
+        Table table = tableViewer.getTable();
+        table.setHeaderVisible(true);
+        table.setLinesVisible(true);
 
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
-	}
-	
-	@Override
-	public void setFocus() {
-		tableViewer.getControl().setFocus();
-	}
-	
-	private void createSelectionListener(final Composite parent) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		ISelectionService selectionService = window.getSelectionService();
-		selectionService.addSelectionListener(new ISelectionListener() {
-			
-			@Override
-			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-				String entry = part.getTitle() + "/";
-				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-				Object fistElement = structuredSelection.getFirstElement();
-				if (fistElement == null) {
-					entry += "null";
-				} else {
-					if (fistElement instanceof Version) {
-						Version version = (Version) fistElement;
-						if (version.getIdVersion() == 5) {
-							createViewer(parent);
-						}
-					} else {
-						entry += fistElement.toString();
-					}
-				}
-			}
-		});
-	}
+        tableViewer.setColumnProperties(initColumnProperties(table));
+        tableViewer.setLabelProvider(new ViewLabelProvider());
+        tableViewer.setContentProvider(new ViewContentProvider());
+        tableViewer.setInput(this);
+
+        GridData gridData = new GridData();
+        gridData.verticalAlignment = GridData.FILL;
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.grabExcessVerticalSpace = true;
+        tableViewer.getControl().setLayoutData(gridData);
+    }
+
+    private String[] initColumnProperties(Table table) {
+
+        String[] result = new String[5];
+
+        for (int i = 0; i < 5; i++) {
+            result[i] = "Column" + i;
+
+            if (i == 0) {
+                createTableColumn(table, "Name", 300, i);
+            } else if (i == 1) {
+                createTableColumn(table, "App Module", 170, i);
+            } else if (i == 2) {
+                createTableColumn(table, "Device Type", 170, i);
+            } else if (i == 3) {
+                createTableColumn(table, "Physical Location", 200, i);
+            } else if (i == 4) {
+                createTableColumn(table, "Manufacturer", 160, i);
+            }
+        }
+
+        return result;
+    }
+
+    private void createTableColumn(Table table, String title, int bound,
+            int colNumber) {
+        TableColumn tableColumn = new TableColumn(table, SWT.NONE);
+
+        tableColumn.setText(title);
+        tableColumn.setWidth(bound);
+        tableColumn.setResizable(true);
+        tableColumn.setMoveable(true);
+        tableColumn.addSelectionListener(getSelectionAdapter(tableColumn,
+                colNumber));
+    }
+
+    private SelectionAdapter getSelectionAdapter(final TableColumn column,
+            final int index) {
+        SelectionAdapter selectionAdapter = new SelectionAdapter() {
+
+            private static final long serialVersionUID = -3024566727614483785L;
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                tableViewerComparator.setColumn(index);
+                int dir = tableViewerComparator.getDirection();
+                tableViewer.getTable().setSortDirection(dir);
+                tableViewer.getTable().setSortColumn(column);
+                tableViewer.refresh();
+            }
+        };
+        return selectionAdapter;
+    }
+
+    private class ViewLabelProvider extends LabelProvider implements
+            ITableLabelProvider {
+
+        private static final long serialVersionUID = 208403679101827118L;
+
+        public Image getColumnImage(Object element, int columnIndex) {
+            Device row = (Device) element;
+            ImageDescriptor descriptor = null;
+            Image image = null;
+
+            if (columnIndex == 0) {
+                if (IP_CAMERAS.equals(row.getDeviceType())) {
+                    descriptor = getImageDescriptor("camera.png");
+                } else if (DVR_NVR.equals(row.getDeviceType())) {
+                    descriptor = getImageDescriptor("cctv.png");
+                } else if (FIREPLACE_CONTROLLER.equals(row.getDeviceType())) {
+                    descriptor = getImageDescriptor("fireplace-controller.png");
+                }
+
+            }
+
+            // obtain the cached image corresponding to the descriptor
+            if (descriptor != null) {
+                image = descriptor.createImage();
+            }
+
+            return image;
+        }
+
+        public String getColumnText(Object element, int columnIndex) {
+            Device row = (Device) element;
+            String result = row.getColumnByIndex(columnIndex);
+            return result;
+        }
+    }
+
+    public static ImageDescriptor getImageDescriptor(String name) {
+        String iconPath = "images/";
+        Bundle bundle = Platform.getBundle("org.carter.peyton.training.rap");
+        URL url = BundleUtility.find(bundle, iconPath + name);
+        return ImageDescriptor.createFromURL(url);
+    }
+
+    private class ViewContentProvider implements IStructuredContentProvider {
+
+        private static final long serialVersionUID = -1817398953526760067L;
+
+        @Override
+        public Object[] getElements(Object inputElement) {
+
+            return new Object[0];
+        }
+
+        @Override
+        public void dispose() {
+        }
+
+        @Override
+        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        }
+    }
+
+    @Override
+    public void setFocus() {
+        tableViewer.getControl().setFocus();
+    }
+
+    private void createSelectionListener(final Composite parent) {
+        IWorkbench workbench = PlatformUI.getWorkbench();
+        IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+        ISelectionService selectionService = window.getSelectionService();
+        selectionService.addSelectionListener(new ISelectionListener() {
+
+            @Override
+            public void selectionChanged(IWorkbenchPart part,
+                    ISelection selection) {
+                IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+                Object fistElement = structuredSelection.getFirstElement();
+                if (fistElement != null) {
+                    if (fistElement instanceof Version) {
+                        Version version = (Version) fistElement;
+                        deviceDAOImpl = new DeviceDAOImpl();
+                        List<Device> listDevice = deviceDAOImpl.getDeviceList();
+                        List<Device> newListDevice = new ArrayList<Device>();
+                        for (Device device : listDevice) {
+                            if (version.getIdVersion() == device.getIdVersion()) {
+                                newListDevice.add(device);
+                            }
+                        }
+
+                        final Object[] result = new Object[newListDevice.size()];
+                        newListDevice.toArray(result);
+
+                        tableViewer
+                                .setContentProvider(new IStructuredContentProvider() {
+
+                                    private static final long serialVersionUID = -8323734161192822131L;
+
+                                    @Override
+                                    public void inputChanged(Viewer viewer,
+                                            Object oldInput, Object newInput) {
+                                    }
+
+                                    @Override
+                                    public void dispose() {
+                                    }
+
+                                    @Override
+                                    public Object[] getElements(
+                                            Object inputElement) {
+                                        return result;
+                                    }
+                                });
+
+                        tableViewer.setInput(this);
+                        parent.setVisible(true);
+                    } else {
+                        tableViewer
+                                .setContentProvider(new IStructuredContentProvider() {
+
+                                    private static final long serialVersionUID = -8323734161192822131L;
+
+                                    @Override
+                                    public void inputChanged(Viewer viewer,
+                                            Object oldInput, Object newInput) {
+                                    }
+
+                                    @Override
+                                    public void dispose() {
+                                    }
+
+                                    @Override
+                                    public Object[] getElements(
+                                            Object inputElement) {
+                                        return new Object[0];
+                                    }
+                                });
+
+                        tableViewer.setInput(this);
+                        parent.setVisible(false);
+                    }
+                }
+            }
+        });
+    }
 }
