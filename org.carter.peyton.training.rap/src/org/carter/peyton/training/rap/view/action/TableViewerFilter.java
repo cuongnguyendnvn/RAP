@@ -24,23 +24,23 @@ public class TableViewerFilter extends ViewerFilter {
 
         Device d = (Device) element;
         
-        if (d.getDeviceName().matches(searchString)) {
+        if (d.getDeviceName() != null && d.getDeviceName().matches(searchString)) {
             return true;
         }
 
-        if (d.getAppModule().matches(searchString)) {
+        if (d.getAppModule() != null && d.getAppModule().matches(searchString)) {
             return true;
         }
 
-        if (d.getDeviceType().matches(searchString)) {
+        if (d.getDeviceType() != null && d.getDeviceType().matches(searchString)) {
             return true;
         }
 
-        if (d.getPhysicalLocation().matches(searchString)) {
-            return true;
+        if (d.getPhysicalLocation() != null && d.getPhysicalLocation().matches(searchString)) {
+        	return true;
         }
 
-        if (d.getManufacturer().matches(searchString)) {
+        if (d.getManufacturer() != null && d.getManufacturer().matches(searchString)) {
             return true;
         }
 

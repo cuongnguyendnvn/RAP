@@ -11,11 +11,12 @@ public class TableViewerComparator extends ViewerComparator {
 
     private int propertyIndex;
     private static final int DESCENDING = 1;
+    private static final int ASCENDING = 0;
     private int direction = DESCENDING;
 
     public TableViewerComparator() {
         this.propertyIndex = 0;
-        direction = DESCENDING;
+        direction = ASCENDING;
     }
 
     public int getDirection() {

@@ -13,8 +13,38 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="org.carter.peyton.training.rap.application.perspective.ProjectsPerspective"
+            fixed="true"
+            icon="images/serverview.png"
             id="org.carter.peyton.training.rap.perspective.projects"
             name="Projects">
+      </perspective>
+      <perspective
+            class="org.carter.peyton.training.rap.application.perspective.TemplatesPerspective"
+            fixed="true"
+            icon="images/template.png"
+            id="org.carter.peyton.training.rap.perspective.templates"
+            name="Templates">
+      </perspective>
+      <perspective
+            class="org.carter.peyton.training.rap.application.perspective.SystemPerspective"
+            fixed="true"
+            icon="images/system.png"
+            id="org.carter.peyton.training.rap.perspective.system"
+            name="System">
+      </perspective>
+      <perspective
+            class="org.carter.peyton.training.rap.application.perspective.UsersPerspective"
+            fixed="true"
+            icon="images/group_users.png"
+            id="org.carter.peyton.training.rap.perspective.users"
+            name="Users">
+      </perspective>
+      <perspective
+            class="org.carter.peyton.training.rap.application.perspective.LogoutPerspective"
+            fixed="true"
+            icon="images/logout.png"
+            id="org.carter.peyton.training.rap.perspective.logout"
+            name="Logout">
       </perspective>
    </extension>
    <extension

@@ -1,5 +1,6 @@
 package org.carter.peyton.training.rap.application;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -27,8 +28,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setInitialSize(new Point(1024, 768));
         configurer.setShowMenuBar(false);
         configurer.setShowCoolBar(true);
-        configurer.setShowStatusLine(true);
         configurer.setShowPerspectiveBar(false);
+        configurer.setShowStatusLine(true);
     }
 
     @Override
@@ -37,5 +38,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
         Shell shell = window.getShell();
         shell.setFullScreen(true);
+        shell.setBackground(new Color(null, 237, 245, 250));
     }
 }

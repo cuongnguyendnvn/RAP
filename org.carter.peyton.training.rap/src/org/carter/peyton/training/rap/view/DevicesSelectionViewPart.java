@@ -7,7 +7,6 @@ import java.util.List;
 import org.carter.peyton.training.rap.dao.impl.DeviceDAOImpl;
 import org.carter.peyton.training.rap.models.Device;
 import org.carter.peyton.training.rap.models.Version;
-import org.carter.peyton.training.rap.view.action.AddProjectViewToolbar;
 import org.carter.peyton.training.rap.view.action.TableViewerComparator;
 import org.carter.peyton.training.rap.view.action.TableViewerFilter;
 import org.eclipse.core.runtime.Platform;
@@ -22,16 +21,16 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -39,20 +38,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 
 public class DevicesSelectionViewPart extends ViewPart {
@@ -73,9 +68,10 @@ public class DevicesSelectionViewPart extends ViewPart {
 
     @Override
     public void createPartControl(Composite parent) {
-        parent.setLayout(new GridLayout(2, false));
+        parent.setLayout(new GridLayout(1, false));
 
-        //createFilterViewer(parent);
+        createToolbaViewer(parent);
+        createFilterViewer(parent);
         createTableViewer(parent);
 
         // Set the sorter for the table
@@ -101,22 +97,123 @@ public class DevicesSelectionViewPart extends ViewPart {
         parent.setVisible(false);
     }
 
+    private void createToolbaViewer(Composite parent) {
+        Composite composite = new Composite(parent, SWT.NONE);
+        RowLayout rowLayout = new RowLayout();
+        rowLayout.marginLeft = 570;
+        composite.setLayout(rowLayout);
+
+        ToolBar toolBar = new ToolBar(composite, SWT.FLAT);
+
+        ToolItem item1 = new ToolItem(toolBar, SWT.PUSH );
+        item1.setImage(getImageDescriptor("refresh.png").createImage());
+
+        new ToolItem( toolBar, SWT.SEPARATOR );
+
+        ToolItem item2 = new ToolItem(toolBar, SWT.PUSH);
+        item2.setImage(getImageDescriptor("add.png").createImage());
+
+        ToolItem item3 = new ToolItem(toolBar, SWT.PUSH);
+        item3.setImage(getImageDescriptor("node_clone.png").createImage());
+        item3.setEnabled(false);
+
+        ToolItem item4 = new ToolItem(toolBar, SWT.PUSH);
+        item4.setImage(getImageDescriptor("delete.png").createImage());
+        item4.setEnabled(false);
+
+        new ToolItem( toolBar, SWT.SEPARATOR );
+
+        ToolItem item5 = new ToolItem(toolBar, SWT.PUSH);
+        item5.setImage(getImageDescriptor("import_device.png").createImage());
+
+        ToolItem item6 = new ToolItem(toolBar, SWT.PUSH);
+        item6.setImage(getImageDescriptor("import_zwave.png").createImage());
+
+        ToolItem item7 = new ToolItem(toolBar, SWT.PUSH);
+        item7.setImage(getImageDescriptor("template_child.png").createImage());
+        item7.setEnabled(false);
+
+        ToolItem item8 = new ToolItem(toolBar, SWT.PUSH);
+        item8.setImage(getImageDescriptor("export.png").createImage());
+
+        new ToolItem( toolBar, SWT.SEPARATOR );
+
+        ToolItem item9 = new ToolItem(toolBar, SWT.PUSH);
+        item9.setImage(getImageDescriptor("system.png").createImage());
+
+        ToolItem item10 = new ToolItem(toolBar, SWT.PUSH);
+        item10.setImage(getImageDescriptor("expand.png").createImage());
+
+        ToolItem item11 = new ToolItem(toolBar, SWT.PUSH);
+        item11.setImage(getImageDescriptor("collapse.png").createImage());
+
+        new ToolItem( toolBar, SWT.SEPARATOR );
+
+        ToolItem item12 = new ToolItem(toolBar, SWT.PUSH);
+        item12.setImage(getImageDescriptor("update.png").createImage());
+
+        ToolItem item13 = new ToolItem(toolBar, SWT.PUSH);
+        item13.setImage(getImageDescriptor("request_online_status.png").createImage());
+    }
+
     private void createFilterViewer(Composite parent) {
-        Label searchLabel = new Label(parent, SWT.NONE);
-        searchLabel.setText("Filter: ");
-        final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
-        searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-                | GridData.HORIZONTAL_ALIGN_FILL));
-        // New to support the search
-        searchText.addKeyListener(new KeyAdapter() {
+        Composite toolbarComposite = new Composite(parent, SWT.NONE);
+        toolbarComposite.setLayout(new GridLayout(2, false));
+
+        Composite filterComposite = new Composite(toolbarComposite, SWT.NONE);
+        filterComposite.setLayout(new GridLayout(3, false));
+
+        Label filterLabel = new Label(filterComposite, SWT.NONE);
+        filterLabel.setText("Filter: ");
+
+        final Text filterText = new Text(filterComposite, SWT.BORDER | SWT.SEARCH);
+        GridData filterTextGridData = new GridData(280, 10);
+        filterText.setLayoutData(filterTextGridData);
+
+        final Button filterButton = new Button(filterComposite, SWT.NONE);
+        filterButton.setImage(getImageDescriptor("find.png").createImage());
+        filterButton.setEnabled(false);
+
+        filterText.addKeyListener(new KeyAdapter() {
 
             private static final long serialVersionUID = -6726454020327955753L;
 
             public void keyReleased(KeyEvent ke) {
-                tableViewerFilter.setSearchText(searchText.getText());
-                tableViewer.refresh();
+                filterButton.setEnabled(true);
             }
         });
+        
+        filterButton.addSelectionListener(new SelectionListener() {
+
+            private static final long serialVersionUID = -3133820023605778075L;
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                tableViewerFilter.setSearchText(filterText.getText());
+                tableViewer.refresh();
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent e) {}
+        });
+
+        Composite findComposite = new Composite(toolbarComposite, SWT.NONE);
+        GridLayout findGridLayout = new GridLayout(4, false);
+        findGridLayout.marginLeft = 200;
+        findComposite.setLayout(findGridLayout);
+
+        Label findLabel = new Label(findComposite, SWT.NONE);
+        findLabel.setText("Find: ");
+
+        final Text findText = new Text(findComposite, SWT.BORDER | SWT.SEARCH);
+        GridData findTextGridData = new GridData(170, 10);
+        findText.setLayoutData(findTextGridData);
+
+        final Button findButtonUp = new Button(findComposite, SWT.NONE);
+        findButtonUp.setImage(getImageDescriptor("arrow_top.png").createImage());
+
+        final Button findButtonDown = new Button(findComposite, SWT.NONE);
+        findButtonDown.setImage(getImageDescriptor("arrow_bottom.png").createImage());
     }
 
     private void createTableViewer(Composite parent) {
@@ -286,8 +383,7 @@ public class DevicesSelectionViewPart extends ViewPart {
                         final Object[] result = new Object[newListDevice.size()];
                         newListDevice.toArray(result);
 
-                        tableViewer
-                                .setContentProvider(new IStructuredContentProvider() {
+                        tableViewer.setContentProvider(new IStructuredContentProvider() {
 
                                     private static final long serialVersionUID = -8323734161192822131L;
 
@@ -310,8 +406,7 @@ public class DevicesSelectionViewPart extends ViewPart {
                         tableViewer.setInput(this);
                         parent.setVisible(true);
                     } else {
-                        tableViewer
-                                .setContentProvider(new IStructuredContentProvider() {
+                        tableViewer.setContentProvider(new IStructuredContentProvider() {
 
                                     private static final long serialVersionUID = -8323734161192822131L;
 

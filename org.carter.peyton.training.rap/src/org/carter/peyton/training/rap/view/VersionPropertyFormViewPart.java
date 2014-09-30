@@ -40,7 +40,7 @@ public class VersionPropertyFormViewPart extends ViewPart {
 
     @Override
     public void createPartControl(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NONE);
+        Composite composite = new Composite(parent, SWT.NO_REDRAW_RESIZE);
         composite.setLayout(new FillLayout());
 
         FormToolkit toolkit = new FormToolkit(composite.getDisplay());
