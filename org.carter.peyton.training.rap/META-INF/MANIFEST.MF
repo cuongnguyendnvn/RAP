@@ -9,8 +9,5 @@ Require-Bundle: org.eclipse.rap.rwt;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rap.ui;bundle-version="2.1.0",
  org.eclipse.rap.jface,
  org.eclipse.rap.ui.views,
- org.eclipse.rap.ui.forms
-Bundle-ClassPath: eclipselink.jar,
- javax.persistence_2.1.0.v201304241213.jar,
- mysql-connector-java-5.1.21.jar,
- .
+ org.eclipse.rap.ui.forms,
+ org.carter.peyton.training.rap.db;bundle-version="1.0.0"

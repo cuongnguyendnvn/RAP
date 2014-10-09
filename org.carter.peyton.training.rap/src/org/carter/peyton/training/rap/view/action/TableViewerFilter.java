@@ -1,6 +1,6 @@
 package org.carter.peyton.training.rap.view.action;
 
-import org.carter.peyton.training.rap.models.Device;
+import org.carter.peyton.training.rap.db.entities.Device;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 

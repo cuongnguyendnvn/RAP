@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.carter.peyton.training.rap.dao.impl.DeviceDAOImpl;
-import org.carter.peyton.training.rap.models.Device;
-import org.carter.peyton.training.rap.models.Version;
+import org.carter.peyton.training.rap.db.dao.impl.DeviceDAOImpl;
+import org.carter.peyton.training.rap.db.entities.Device;
+import org.carter.peyton.training.rap.db.entities.Version;
 import org.carter.peyton.training.rap.view.action.TableViewerComparator;
 import org.carter.peyton.training.rap.view.action.TableViewerFilter;
 import org.eclipse.core.runtime.Platform;

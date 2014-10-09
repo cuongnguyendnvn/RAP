@@ -2,9 +2,8 @@ package org.carter.peyton.training.rap.view;
 
 import java.net.URL;
 
-import org.carter.peyton.training.rap.dao.impl.ProjectDAOImpl;
-import org.carter.peyton.training.rap.models.Version;
-import org.carter.peyton.training.rap.view.action.FormCustomAction;
+import org.carter.peyton.training.rap.db.dao.impl.ProjectDAOImpl;
+import org.carter.peyton.training.rap.db.entities.Version;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -27,7 +26,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
