@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -37,6 +38,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -156,7 +158,7 @@ public class DevicesSelectionViewPart extends ViewPart {
         item13.setImage(getImageDescriptor("request_online_status.png").createImage());
     }
 
-    private void createFilterViewer(Composite parent) {
+    private void createFilterViewer(final Composite parent) {
         Composite toolbarComposite = new Composite(parent, SWT.NONE);
         toolbarComposite.setLayout(new GridLayout(2, false));
 
@@ -179,6 +181,8 @@ public class DevicesSelectionViewPart extends ViewPart {
             private static final long serialVersionUID = -6726454020327955753L;
 
             public void keyReleased(KeyEvent ke) {
+                tableViewerFilter.setSearchText(filterText.getText());
+                tableViewer.refresh();
                 filterButton.setEnabled(true);
             }
         });
@@ -189,8 +193,9 @@ public class DevicesSelectionViewPart extends ViewPart {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                tableViewerFilter.setSearchText(filterText.getText());
+                tableViewerFilter.setSearchText("");
                 tableViewer.refresh();
+                filterText.setText("");
             }
 
             @Override
@@ -211,9 +216,95 @@ public class DevicesSelectionViewPart extends ViewPart {
 
         final Button findButtonUp = new Button(findComposite, SWT.NONE);
         findButtonUp.setImage(getImageDescriptor("arrow_top.png").createImage());
+        findButtonUp.addSelectionListener(new SelectionListener() {
+
+            private static final long serialVersionUID = -4398198586604913723L;
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                TableItem[] tableItems = tableViewer.getTable().getItems();
+                int currentItem = tableViewer.getTable().getSelectionIndex();
+                int startIndex = tableItems.length - 1;
+
+                if (!findText.getText().isEmpty()) {
+                    if (currentItem == -1) {
+                        startIndex = 0;
+                    } else if (currentItem != 0) {
+                        startIndex = currentItem - 1; 
+                    }
+
+                    for (int i = startIndex; i >= 0; i--) {
+                        for (int j = 0; j < 5; j++) {
+                            if (tableItems[i].getText(j).toLowerCase().contains(findText.getText().toLowerCase())) {
+                                tableViewer.getTable().setSelection(tableItems[i]);
+                                i = -1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (currentItem == tableViewer.getTable().getSelectionIndex()) {
+                        for (int i = tableItems.length - 1; i > startIndex; i--) {
+                            for (int j = 0; j < 5; j++) {
+                                if (tableItems[i].getText(j).toLowerCase().contains(findText.getText().toLowerCase())) {
+                                    tableViewer.getTable().setSelection(tableItems[i]);
+                                    i = -1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent e) {}
+        });
 
         final Button findButtonDown = new Button(findComposite, SWT.NONE);
         findButtonDown.setImage(getImageDescriptor("arrow_bottom.png").createImage());
+        findButtonDown.addSelectionListener(new SelectionListener() {
+
+            private static final long serialVersionUID = -5291996045680476803L;
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                TableItem[] tableItems = tableViewer.getTable().getItems();
+                int currentItem = tableViewer.getTable().getSelectionIndex();
+                int startIndex = 0;
+
+                if (!findText.getText().isEmpty()) {
+                    if (currentItem != -1 || currentItem != tableItems.length - 1) {
+                        startIndex = currentItem + 1;
+                    }
+
+                    for (int i = startIndex; i < tableItems.length; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            if (tableItems[i].getText(j).toLowerCase().contains(findText.getText().toLowerCase())) {
+                                tableViewer.getTable().setSelection(tableItems[i]);
+                                i = tableItems.length;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (currentItem == tableViewer.getTable().getSelectionIndex()) {
+                        for (int i = 0; i < startIndex; i++) {
+                            for (int j = 0; j < 5; j++) {
+                                if (tableItems[i].getText(j).toLowerCase().contains(findText.getText().toLowerCase())) {
+                                    tableViewer.getTable().setSelection(tableItems[i]);
+                                    i = startIndex;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent e) {}
+        });
     }
 
     private void createTableViewer(Composite parent) {
@@ -223,6 +314,7 @@ public class DevicesSelectionViewPart extends ViewPart {
         Table table = tableViewer.getTable();
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
+        table.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
 
         tableViewer.setColumnProperties(initColumnProperties(table));
         tableViewer.setLabelProvider(new ViewLabelProvider());
@@ -321,7 +413,14 @@ public class DevicesSelectionViewPart extends ViewPart {
 
         public String getColumnText(Object element, int columnIndex) {
             Device row = (Device) element;
-            String result = row.getColumnByIndex(columnIndex);
+            String result = null;
+
+            if (row.getColumnByIndex(columnIndex) == null) {
+                result = row.getColumnByIndex(columnIndex);
+            } else {
+                result = "<a href=\"http://eclipse.org/rap\" target=\"_blank\">" + row.getColumnByIndex(columnIndex) + "</a>";
+            }
+
             return result;
         }
     }

@@ -9,9 +9,9 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 public class UsersPerspective implements IPerspectiveFactory {
 
-	@Override
-	public void createInitialLayout(IPageLayout layout) {
-		String editorLayout = layout.getEditorArea();
+    @Override
+    public void createInitialLayout(IPageLayout layout) {
+        String editorLayout = layout.getEditorArea();
         layout.setEditorAreaVisible(false);
         layout.setFixed(true);
 
@@ -24,6 +24,6 @@ public class UsersPerspective implements IPerspectiveFactory {
         topRight.addView(DevicesSelectionViewPart.ID);
 
         layout.addStandaloneView(VersionPropertyFormViewPart.ID, false, IPageLayout.BOTTOM, 0.65f, "topLeft");
-	}
+    }
 
 }

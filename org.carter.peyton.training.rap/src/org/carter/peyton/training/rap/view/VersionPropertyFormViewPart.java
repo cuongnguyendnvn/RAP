@@ -1,7 +1,12 @@
 package org.carter.peyton.training.rap.view;
 
+import java.net.URL;
+
 import org.carter.peyton.training.rap.dao.impl.ProjectDAOImpl;
 import org.carter.peyton.training.rap.models.Version;
+import org.carter.peyton.training.rap.view.action.FormCustomAction;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.rap.rwt.RWT;
@@ -13,6 +18,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbench;
@@ -20,11 +27,14 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 public class VersionPropertyFormViewPart extends ViewPart {
 
@@ -46,10 +56,12 @@ public class VersionPropertyFormViewPart extends ViewPart {
         FormToolkit toolkit = new FormToolkit(composite.getDisplay());
         ScrolledForm form = toolkit.createScrolledForm(composite);
         form.getBody().setLayout(new TableWrapLayout());
+
         toolkit.decorateFormHeading(form.getForm());
 
         int sectionStyle = Section.TITLE_BAR;
         Section section = toolkit.createSection(form.getBody(), sectionStyle);
+
         section.setText("Version Properties");
 
         TableWrapData tableWrapData = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -69,38 +81,46 @@ public class VersionPropertyFormViewPart extends ViewPart {
         projectVersionLabel.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
         projectVersionText = toolkit.createText(content, null);
         projectVersionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        projectVersionText.setBackground(new Color(null, 220, 220, 220));
-        projectVersionText.setEnabled(false);
+        projectVersionText.setBackground(new Color(null, 225, 225, 225));
+        projectVersionText.setEditable(false);
 
         Label deployTimeLabel = toolkit.createLabel( content, "Deploy Time: ");
         deployTimeLabel.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
         deployTimeText = toolkit.createText(content, null);
         deployTimeText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        deployTimeText.setBackground(new Color(null, 220, 220, 220));
-        deployTimeText.setEnabled(false);
+        deployTimeText.setBackground(new Color(null, 225, 225, 225));
+        deployTimeText.setEditable(false);
 
         Label deploySourceLabel = toolkit.createLabel( content, "Deploy Source: ");
         deploySourceLabel.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
         deploySourceText = toolkit.createText(content, null);
         deploySourceText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        deploySourceText.setBackground(new Color(null, 220, 220, 220));
-        deploySourceText.setEnabled(false);
+        deploySourceText.setBackground(new Color(null, 225, 225, 225));
+        deploySourceText.setEditable(false);
 
         Label saveTimeLabel = toolkit.createLabel( content, "Save Time: ");
         saveTimeLabel.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
         saveTimeText = toolkit.createText(content, null);
         saveTimeText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        saveTimeText.setBackground(new Color(null, 220, 220, 220));
-        saveTimeText.setEnabled(false);
+        saveTimeText.setBackground(new Color(null, 225, 225, 225));
+        saveTimeText.setEditable(false);
 
         Label targetVersionLabel = toolkit.createLabel( content, "Target Version: ");
         targetVersionLabel.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
         targetVersionText = toolkit.createText(content, null);
         targetVersionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        targetVersionText.setBackground(new Color(null, 220, 220, 220));
-        targetVersionText.setEnabled(false);
+        targetVersionText.setBackground(new Color(null, 225, 225, 225));
+        targetVersionText.setEditable(false);
 
         createSelectionListener(composite);
+
+        // Set custom action for section
+        ToolBar toolbar = new ToolBar(section, SWT.NONE);
+        ToolItem toolItem = new ToolItem(toolbar, SWT.NONE);
+        toolItem.setImage(getImageDescriptor("save_as.png").createImage());
+        toolItem.setEnabled(false);
+
+        section.setTextClient(toolbar);
 
         section.setClient(content);
         composite.setVisible(false);
@@ -143,5 +163,12 @@ public class VersionPropertyFormViewPart extends ViewPart {
                 }
             }
         });
+    }
+
+    public static ImageDescriptor getImageDescriptor(String name) {
+        String iconPath = "images/";
+        Bundle bundle = Platform.getBundle("org.carter.peyton.training.rap");
+        URL url = BundleUtility.find(bundle, iconPath + name);
+        return ImageDescriptor.createFromURL(url);
     }
 }

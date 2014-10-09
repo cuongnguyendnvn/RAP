@@ -6,7 +6,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 
 public class Application implements EntryPoint {
-    
+
     @Override
     public int createUI() {
         Display display = PlatformUI.createDisplay();

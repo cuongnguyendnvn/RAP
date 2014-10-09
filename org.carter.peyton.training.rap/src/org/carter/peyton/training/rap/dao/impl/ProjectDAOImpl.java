@@ -22,7 +22,7 @@ public class ProjectDAOImpl implements ProjectDAO {
         query.setParameter("projectId", projectId);
         Project project = (Project)query.getSingleResult();
         em.close();
-        
+
         return project;
     }
 
@@ -34,7 +34,7 @@ public class ProjectDAOImpl implements ProjectDAO {
         @SuppressWarnings("unchecked")
         List<Project> listProject = query.getResultList();
         em.close();
-        
+
         return listProject;
     }
     

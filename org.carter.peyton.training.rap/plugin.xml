@@ -97,5 +97,12 @@
             name="Rules">
       </view>
    </extension>
+   <extension
+         point="org.eclipse.rap.ui.themes">
+      <themeContribution
+            file="css/default.css"
+            themeId="org.eclipse.rap.rwt.theme.Default">
+      </themeContribution>
+   </extension>
 
 </plugin>

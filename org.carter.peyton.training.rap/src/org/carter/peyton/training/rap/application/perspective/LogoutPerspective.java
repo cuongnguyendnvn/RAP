@@ -5,10 +5,10 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 public class LogoutPerspective implements IPerspectiveFactory {
 
-	@Override
-	public void createInitialLayout(IPageLayout layout) {
+    @Override
+    public void createInitialLayout(IPageLayout layout) {
         layout.setEditorAreaVisible(false);
         layout.setFixed(true);
-	}
+    }
 
 }
